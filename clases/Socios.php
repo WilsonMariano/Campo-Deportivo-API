@@ -1,0 +1,105 @@
+<?php
+
+require_once "AccesoDatos.php";
+require_once "SociosTitulares.php";
+
+class Socios extends SociosTitulares {
+
+  public $id;
+  public $idSocioTitular;
+  public $nombre;
+  public $apellido;
+  public $dni;
+  public $fechaNacimiento;
+  public $codParentesco;
+  public $activo;
+
+  //Constructor customizado
+  public function __construct($arrData = null) {
+
+    if($arrData != null) {
+
+      $this->id = $arrData["id"] ?? null;
+      $this->idSocioTitular = $arrData["idSocioTitular"] ?? null;
+      $this->activo = $arrData["activo"] ?? null;
+      $this->nombre = $arrData["nombre"];
+      $this->apellido = $arrData["apellido"];
+      $this->dni = $arrData["dni"];
+      $this->fechaNacimiento = $arrData["fechaNacimiento"];
+      $this->codParentesco = $arrData["codParentesco"];
+
+      $this->codTipoSocio = $arrData["codTipoSocio"];
+      $this->nroAfiliado = $arrData["nroAfiliado"];
+    }
+  }
+
+  public function BindQueryParams($consulta, $objEntidad, $includePK = true) {
+  
+    $consulta->bindValue(':idSocioTitular',     $objEntidad->idSocioTitular,    PDO::PARAM_INT);
+    $consulta->bindValue(':nombre',             $objEntidad->nombre,            PDO::PARAM_STR);
+    $consulta->bindValue(':apellido',           $objEntidad->apellido,          PDO::PARAM_STR);
+    $consulta->bindValue(':dni',                $objEntidad->dni,               PDO::PARAM_INT);
+    $consulta->bindValue(':fechaNacimiento',    $objEntidad->fechaNacimiento,   PDO::PARAM_STR);
+    $consulta->bindValue(':codParentesco',      $objEntidad->codParentesco,     PDO::PARAM_STR);
+    $consulta->bindValue(':codTipoSocio',       $objEntidad->codTipoSocio,      PDO::PARAM_STR);
+    $consulta->bindValue(':activo',             $objEntidad->activo,            PDO::PARAM_STR);
+    $consulta->bindValue(':nroAfiliado',        $objEntidad->nroAfiliado,       PDO::PARAM_INT);
+
+    if($includePK == true)
+      $consulta->bindValue(':id'      , $objEntidad->id       ,\PDO::PARAM_INT);
+  }
+  
+  public static function Insertar($socio) {	
+		 
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    CALL insertSocio(
+      :codTipoSocio, 
+      :nroAfiliado,
+      :nombre,
+      :apellido,
+      :dni,
+      :fechaNacimiento,
+      :codParentesco)");
+		$consulta->bindValue(':codTipoSocio',     $socio->codTipoSocio,     PDO::PARAM_STR);
+		$consulta->bindValue(':nroAfiliado',      $socio->nroAfiliado,      PDO::PARAM_INT);
+		$consulta->bindValue(':nombre',           $socio->nombre,           PDO::PARAM_STR);
+		$consulta->bindValue(':apellido',         $socio->apellido,         PDO::PARAM_STR);
+		$consulta->bindValue(':dni',              $socio->dni,              PDO::PARAM_INT);
+		$consulta->bindValue(':fechaNacimiento',  $socio->fechaNacimiento,  PDO::PARAM_STR);
+		$consulta->bindValue(':codParentesco',    $socio->codParentesco,    PDO::PARAM_STR);
+		$consulta->execute();
+		
+    return $consulta->rowCount();	
+  }
+  
+  public static function Update($socio) {	
+		 
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    CALL updateSocio(
+      :id,
+      :idSocioTitular,
+      :codTipoSocio, 
+      :nroAfiliado,
+      :nombre,
+      :apellido,
+      :dni,
+      :fechaNacimiento,
+      :codParentesco,
+      :activo)");
+		$consulta->bindValue(':id',               $socio->id,               PDO::PARAM_INT);
+		$consulta->bindValue(':idSocioTitular',   $socio->idSocioTitular,   PDO::PARAM_INT);
+		$consulta->bindValue(':codTipoSocio',     $socio->codTipoSocio,     PDO::PARAM_STR);
+		$consulta->bindValue(':nroAfiliado',      $socio->nroAfiliado,      PDO::PARAM_INT);
+		$consulta->bindValue(':nombre',           $socio->nombre,           PDO::PARAM_STR);
+		$consulta->bindValue(':apellido',         $socio->apellido,         PDO::PARAM_STR);
+		$consulta->bindValue(':dni',              $socio->dni,              PDO::PARAM_INT);
+		$consulta->bindValue(':fechaNacimiento',  $socio->fechaNacimiento,  PDO::PARAM_STR);
+		$consulta->bindValue(':codParentesco',    $socio->codParentesco,    PDO::PARAM_STR);
+		$consulta->bindValue(':activo',           $socio->activo,           PDO::PARAM_INT);
+		$consulta->execute();
+		
+    return $consulta->rowCount();	
+	}
+}
