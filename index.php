@@ -41,6 +41,7 @@
         $this->put('/update[/]', \GenericApi::class . ':UpdateOne');
         $this->get('/all[/]', \GenericApi::class . ':GetAll');  
         $this->get('/one/{id}', \GenericApi::class . ':GetOne');   
+        $this->get('/paged[/]', \GenericApi::class . ':GetPagedWithOptionalFilter');
     });
 
 	$app->run();

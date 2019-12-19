@@ -81,4 +81,27 @@ class FxEntidades {
 		return $consulta->rowCount() > 0 ? true : false;
 	}
 
+	public static function GetPagedWithOptionalFilter($entityName, $column1, $text1, $column2, $text2, $rows, $page) {
+		
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+
+		$consulta =$objetoAccesoDato->RetornarConsulta(
+			"call spGetPagedWithOptionalFilter('$entityName', '$column1', '$text1', '$column2', '$text2', $rows, $page, @o_total_rows)");
+
+		$consulta->execute();
+		$arrResult= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+		$consulta->closeCursor();
+		
+		$output = $objetoAccesoDato->Query("select @o_total_rows as total_rows")->fetchObject();
+			
+		//Armo la respuesta
+		$result = new \stdClass();
+		//Uso ceil() para redondear de manera ascendente
+		$result->total_pages = ceil(intval($output->total_rows)/intval($rows));
+		$result->total_rows = $output->total_rows;
+		$result->data = $arrResult;
+		
+		return $result;					
+	}
+
 }
