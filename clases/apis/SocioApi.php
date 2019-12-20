@@ -47,4 +47,24 @@ class SocioApi {
             ], 500);
     } 
 
+    public static function GetGroupFamily($request, $response, $args) {
+
+        $idSocioTitular = json_decode($args['idSocioTitular']);
+
+        $res = Socios::GetGroupFamily($idSocioTitular);
+
+        if(sizeof($res) > 0)
+            return $response->withJson([
+                'ok'    => true,
+                'data'  => $res
+            ], 200);
+
+        else
+        return $response->withJson([
+            'ok'    => false,
+            'msg'   => 'No existen socios con ese id'
+        ], 400);
+    
+    }
+
 }

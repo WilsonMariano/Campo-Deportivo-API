@@ -32,7 +32,8 @@
     $app->group('/socios', function () {
 
         $this->post('/insert[/]', \SocioApi::class . ':Insert')->add(\MWAuth::class . ':VerificarUsuario');
-        $this->put('/update[/]', \SocioApi::class . ':update');
+        $this->put('/update[/]', \SocioApi::class . ':Update');
+        $this->get('/getGroupFamily/{idSocioTitular}', \SocioApi::class . ':GetGroupFamily');
     });
 
     $app->group('/generic', function () {

@@ -101,5 +101,21 @@ class Socios extends SociosTitulares {
 		$consulta->execute();
 		
     return $consulta->rowCount();	
-	}
+  }
+
+  public static function GetGroupFamily($idSocioTitular) {	
+		 
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT * 
+    FROM vwSocios  
+    WHERE idSocioTitular = :idSocioTitular
+    ");
+		$consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+		$consulta->execute();
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+		
+		return $arrObjEntidad;
+  }
+
 }
