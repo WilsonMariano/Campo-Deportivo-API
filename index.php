@@ -9,6 +9,7 @@
     require_once 'clases/apis/UsuarioApi.php';
     require_once 'clases/apis/SocioApi.php';
     require_once 'clases/apis/GenericApi.php';
+    require_once 'clases/apis/DiccionarioApi.php';
    
     $config['displayErrorDetails'] = true;
     $config['addContentLengthHeader'] = false;
@@ -43,6 +44,11 @@
         $this->get('/all[/]', \GenericApi::class . ':GetAll');  
         $this->get('/one/{id}', \GenericApi::class . ':GetOne');   
         $this->get('/paged[/]', \GenericApi::class . ':GetPagedWithOptionalFilter');
+    });
+
+    $app->group('/diccionario', function () {
+
+        $this->get('/getWithKeys[/]', \DiccionarioApi::class . ':GetWithKeys');
     });
 
 	$app->run();

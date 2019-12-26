@@ -16,5 +16,21 @@ class Diccionario {
   if($includePK == true)
     $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
     
-	}
+  }
+  
+  public function getWithKeys($key) {
+
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT * 
+    FROM diccionario  
+    WHERE clave like '%' :key '%'
+    ");
+		$consulta->bindValue(':key',   $key,   PDO::PARAM_STR);
+    $consulta->execute();
+    
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+		
+		return $arrObjEntidad;
+  }
 }
