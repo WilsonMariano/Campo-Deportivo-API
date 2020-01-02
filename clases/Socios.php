@@ -13,6 +13,7 @@ class Socios extends SociosTitulares {
   public $fechaNacimiento;
   public $codParentesco;
   public $activo;
+  public $edad;
 
   //Constructor customizado
   public function __construct($arrData = null) {
@@ -27,9 +28,9 @@ class Socios extends SociosTitulares {
       $this->dni = $arrData["dni"];
       $this->fechaNacimiento = $arrData["fechaNacimiento"];
       $this->codParentesco = $arrData["codParentesco"];
-
       $this->codTipoSocio = $arrData["codTipoSocio"];
       $this->nroAfiliado = $arrData["nroAfiliado"];
+
     }
   }
 
@@ -72,6 +73,24 @@ class Socios extends SociosTitulares {
 		
     return $consulta->rowCount();	
   }
+
+  public static function InsertarFamilia($socio) {	
+		 
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    INSERT INTO Socios(idSocioTitular, nombre, apellido, dni, fechaNacimiento, codParentesco)
+    VALUES (:idSocioTitular, :nombre, :apellido, :dni, :fechaNacimiento, :codParentesco)");
+
+		$consulta->bindValue(':idSocioTitular',   $socio->idSocioTitular,   PDO::PARAM_INT);
+		$consulta->bindValue(':nombre',           $socio->nombre,           PDO::PARAM_STR);
+		$consulta->bindValue(':apellido',         $socio->apellido,         PDO::PARAM_STR);
+		$consulta->bindValue(':dni',              $socio->dni,              PDO::PARAM_INT);
+		$consulta->bindValue(':fechaNacimiento',  $socio->fechaNacimiento,  PDO::PARAM_STR);
+		$consulta->bindValue(':codParentesco',    $socio->codParentesco,    PDO::PARAM_STR);
+		$consulta->execute();
+		
+    return $consulta->rowCount();	
+  }
   
   public static function Update($socio) {	
 		 
@@ -79,7 +98,6 @@ class Socios extends SociosTitulares {
 		$consulta =$objetoAccesoDato->RetornarConsulta("
     CALL updateSocio(
       :id,
-      :idSocioTitular,
       :codTipoSocio, 
       :nroAfiliado,
       :nombre,
@@ -89,7 +107,6 @@ class Socios extends SociosTitulares {
       :codParentesco,
       :activo)");
 		$consulta->bindValue(':id',               $socio->id,               PDO::PARAM_INT);
-		$consulta->bindValue(':idSocioTitular',   $socio->idSocioTitular,   PDO::PARAM_INT);
 		$consulta->bindValue(':codTipoSocio',     $socio->codTipoSocio,     PDO::PARAM_STR);
 		$consulta->bindValue(':nroAfiliado',      $socio->nroAfiliado,      PDO::PARAM_INT);
 		$consulta->bindValue(':nombre',           $socio->nombre,           PDO::PARAM_STR);
@@ -114,6 +131,23 @@ class Socios extends SociosTitulares {
 		$consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
 		$consulta->execute();
     $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+		
+		return $arrObjEntidad;
+  }
+
+  public static function Getone($idSocio) {	
+		 
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT s.id, s.idSocioTitular, s.nombre, s.apellido, s.dni, s.fechaNacimiento, s.codParentesco, s.activo, st.codTipoSocio, st.nroAfiliado 
+    FROM Socios as s
+    INNER JOIN SociosTitulares as st
+    ON s.idSocioTitular = st.id  
+    WHERE s.id = :idSocio
+    ");
+		$consulta->bindValue(':idSocio',   $idSocio,   PDO::PARAM_INT);
+		$consulta->execute();
+    $arrObjEntidad= $consulta->fetchObject('Socios');	
 		
 		return $arrObjEntidad;
   }

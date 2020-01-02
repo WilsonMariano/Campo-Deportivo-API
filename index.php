@@ -32,8 +32,11 @@
 
     $app->group('/socios', function () {
 
-        $this->post('/insert[/]', \SocioApi::class . ':Insert')->add(\MWAuth::class . ':VerificarUsuario');
-        $this->put('/update[/]', \SocioApi::class . ':Update');
+        // $this->post('/insert[/]',                      \SocioApi::class . ':Insert')->add(\MWAuth::class . ':VerificarUsuario');
+        $this->post('/insert[/]',                      \SocioApi::class . ':Insert');
+        $this->post('/insertFamilia[/]',               \SocioApi::class . ':InsertFamilia');
+        $this->put('/update[/]',                       \SocioApi::class . ':Update');
+        $this->get('/getOne/{idSocio}',                \SocioApi::class . ':GetOne');
         $this->get('/getGroupFamily/{idSocioTitular}', \SocioApi::class . ':GetGroupFamily');
     });
 
