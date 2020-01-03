@@ -10,6 +10,7 @@
     require_once 'clases/apis/SocioApi.php';
     require_once 'clases/apis/GenericApi.php';
     require_once 'clases/apis/DiccionarioApi.php';
+    require_once 'clases/apis/ValoresApi.php';
    
     $config['displayErrorDetails'] = true;
     $config['addContentLengthHeader'] = false;
@@ -52,6 +53,11 @@
     $app->group('/diccionario', function () {
 
         $this->get('/getWithKeys[/]', \DiccionarioApi::class . ':GetWithKeys');
+    });
+
+    $app->group('/valores', function () {
+
+        $this->get('/getValor[/]', \ValoresApi::class . ':GetValor');
     });
 
 	$app->run();

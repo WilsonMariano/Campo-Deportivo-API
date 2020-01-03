@@ -30,5 +30,21 @@ class RangoEdad {
       
       if($includePK == true)
     $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
-	}
+  }
+  
+  public function getRangoWithAge($age) {
+
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT * 
+    FROM rangoedad  
+    WHERE :age BETWEEN edadMin AND edadMax
+    ");
+		$consulta->bindValue(':age',   $age,   PDO::PARAM_STR);
+    $consulta->execute();
+    
+    $obj = $consulta->fetchObject('RangoEdad');	
+		
+		return $obj;
+  }
 }

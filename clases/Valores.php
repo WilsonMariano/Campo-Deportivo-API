@@ -35,5 +35,26 @@ class Valores {
     if($includePK == true)
       $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
   }
+
+  public function GetValor($codPrestacion, $codEdad, $codDia, $codTipoSocio) {
+
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+		SELECT * 
+		FROM Valores 
+		WHERE codPrestacion = :codPrestacion 
+		AND codDia = :codDia 
+		AND codTipoSocio = :codTipoSocio 
+		AND codEdad = :codEdad");
+		$consulta->bindValue(':codPrestacion',  $codPrestacion, PDO::PARAM_STR);
+		$consulta->bindValue(':codDia',         $codDia, PDO::PARAM_STR);
+		$consulta->bindValue(':codTipoSocio',   $codTipoSocio, PDO::PARAM_STR);
+		$consulta->bindValue(':codEdad',        $codEdad, PDO::PARAM_STR);
+    $consulta->execute();
+    
+    $obj = $consulta->fetchObject('Valores');
+		return $obj;	
+
+  }
   
 }
