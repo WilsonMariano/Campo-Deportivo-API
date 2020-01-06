@@ -26,7 +26,7 @@ class FxEntidades {
 		$consulta =$objetoAccesoDato->RetornarConsulta("select * from " . $entityName . " where id =:id");
 		$consulta->bindValue(':id', $idParametro, PDO::PARAM_INT);
 		$consulta->execute();
-		$objEntidad= $consulta->fetchObject($entityName);
+		$objEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);
 
 		return $objEntidad;						
 	}	 
@@ -55,7 +55,8 @@ class FxEntidades {
 		$objEntidad->BindQueryParams($consulta, $objEntidad, $includePK);
 		$consulta->execute();
 		
-		return $consulta->rowCount() > 0 ? true : false;
+		// return $consulta->rowCount() > 0 ? true : false;
+		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	}
 
 	public static function UpdateOne($objEntidad){

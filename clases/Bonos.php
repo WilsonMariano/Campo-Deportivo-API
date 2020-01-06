@@ -12,6 +12,7 @@ class Bonos {
   public $fechaAsignacion;
   public $codPrestacion;
   public $detalle;
+  public $codEstadoBono;
   public $fechaUso;
 
   //Constructor customizado
@@ -21,11 +22,12 @@ class Bonos {
       $this->idSocio = $arrData["idSocio"];
       $this->monto = $arrData["monto"];
       $this->hash = $arrData["hash"];
-      $this->fechaEmision = null;
+      $this->fechaEmision = $arrData["fechaEmision"];
       $this->fechaAsignacion = $arrData["fechaAsignacion"];
       $this->codPrestacion = $arrData["codPrestacion"];
       $this->detalle = $arrData["detalle"];
-      $this->fechaUso = $arrData["fechaUso"];
+      $this->codEstadoBono = $arrData["codEstadoBono"] ?? "cod_estado_bono_1";
+      $this->fechaUso = $arrData["fechaUso"] ?? null;
     }
   }
 
@@ -39,6 +41,7 @@ class Bonos {
     $consulta->bindValue(':codPrestacion',      $objEntidad->codPrestacion,     \PDO::PARAM_STR);
     $consulta->bindValue(':detalle',            $objEntidad->detalle,           \PDO::PARAM_STR);
     $consulta->bindValue(':fechaUso',           $objEntidad->fechaUso,          \PDO::PARAM_STR);
+    $consulta->bindValue(':codEstadoBono',      $objEntidad->codEstadoBono,     \PDO::PARAM_STR);
       
     if($includePK == true)
       $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);

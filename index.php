@@ -11,6 +11,7 @@
     require_once 'clases/apis/GenericApi.php';
     require_once 'clases/apis/DiccionarioApi.php';
     require_once 'clases/apis/ValoresApi.php';
+    require_once 'clases/apis/BonosApi.php';
    
     $config['displayErrorDetails'] = true;
     $config['addContentLengthHeader'] = false;
@@ -58,6 +59,11 @@
     $app->group('/valores', function () {
 
         $this->get('/getValor[/]', \ValoresApi::class . ':GetValor');
+    });
+
+    $app->group('/bonos', function () {
+
+        $this->post('/insert[/]', \BonosApi::class . ':Insert');
     });
 
 	$app->run();

@@ -39,7 +39,7 @@ class GenericApi {
 		$objEntidad = FxEntidades::GetObjEntidad($apiParamsQS['t'], $apiParamsBody);
 
 		if($objEntidad)
-			if(FxEntidades::InsertOne($objEntidad))
+			if(is_numeric(FxEntidades::InsertOne($objEntidad)))
 				return $response->withJson(true, 200); 
 			else
 				return $response->withJson(false, 500);  			
