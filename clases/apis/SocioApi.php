@@ -11,6 +11,9 @@ class SocioApi {
         // Obtengo instancia de clase correspondiente.
         $objEntidad = FxEntidades::GetObjEntidad('Socios', $apiParamsBody);
 
+        $date = new DateTime();
+        $objEntidad->hash = md5($date->getTimestamp() + $objEntidad->dni);
+
         $res = Socios::Insertar($objEntidad);
 
         if($res == 2) {
