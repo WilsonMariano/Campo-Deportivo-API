@@ -12,6 +12,7 @@
     require_once 'clases/apis/DiccionarioApi.php';
     require_once 'clases/apis/ValoresApi.php';
     require_once 'clases/apis/BonosApi.php';
+    require_once 'clases/apis/CuotasApi.php';
    
     $config['displayErrorDetails'] = true;
     $config['addContentLengthHeader'] = false;
@@ -64,6 +65,11 @@
     $app->group('/bonos', function () {
 
         $this->post('/insert[/]', \BonosApi::class . ':Insert');
+    });
+
+    $app->group('/cuotas', function () {
+
+        $this->get('/getCuotas/{idSocioTitular}', \CuotasApi::class . ':getBySocioTitular');
     });
 
 	$app->run();

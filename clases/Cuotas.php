@@ -34,4 +34,22 @@ class Cuotas {
         if($includePK == true)
           $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
       }
+
+      public static function GetBySocioTitular($idSocioTitular) {	
+		 
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("
+        SELECT c.fechaPago, c.fechaVencimiento, c.monto, c.descripcion, s.apellido, s.nombre, s.id AS 'idSocio'
+        FROM Cuotas AS c
+        INNER JOIN 
+        (SELECT * FROM Socios WHERE idSocioTitular = :idSocioTitular AND codParentesco = 'cod_parentesco_1') AS s
+        ON c.idSocioTitular = s.idSocioTitular
+        WHERE c.idSocioTitular = :idSocioTitular
+        ");
+        $consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+        $consulta->execute();
+        $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+        
+        return $arrObjEntidad;
+      }
 }
