@@ -7,6 +7,7 @@ class SociosTitulares {
   // public $id;
   public $codTipoSocio;
   public $nroAfiliado;
+  public $fechaIngreso;
 
       //Constructor customizado
   // public function __construct($arrData = null) {

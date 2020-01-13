@@ -26,7 +26,7 @@ class FxEntidades {
 		$consulta =$objetoAccesoDato->RetornarConsulta("select * from " . $entityName . " where id =:id");
 		$consulta->bindValue(':id', $idParametro, PDO::PARAM_INT);
 		$consulta->execute();
-		$objEntidad= $consulta->fetch();
+		$objEntidad= $consulta->fetch(PDO::FETCH_ASSOC);
 		// $objEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);
 
 		return $objEntidad;						
