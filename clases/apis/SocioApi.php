@@ -97,10 +97,29 @@ class SocioApi {
 
         $res = Socios::GetOne($idSocio);
 
-        // self::CalculateAge($res);
-        // return;
-
+    
+        // CALCULAR EDAD!!!
         $res->edad = 20;
+
+        if($res != false)
+            return $response->withJson([
+                'ok'    => true,
+                'data'  => $res
+            ], 200);
+
+        else
+        return $response->withJson([
+            'ok'    => false,
+            'msg'   => 'No existen socios con ese id'
+        ], 400);
+    
+    }
+
+    public static function GetTitular($request, $response, $args) {
+
+        $idSocioTitular = json_decode($args['idSocioTitular']);
+
+        $res = Socios::GetTitular($idSocioTitular);
 
         if($res != false)
             return $response->withJson([

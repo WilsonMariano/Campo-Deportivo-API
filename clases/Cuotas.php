@@ -39,12 +39,9 @@ class Cuotas {
 		 
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("
-        SELECT c.fechaPago, c.fechaVencimiento, c.monto, c.descripcion, s.apellido, s.nombre, s.id AS 'idSocio'
-        FROM Cuotas AS c
-        INNER JOIN 
-        (SELECT * FROM Socios WHERE idSocioTitular = :idSocioTitular AND codParentesco = 'cod_parentesco_1') AS s
-        ON c.idSocioTitular = s.idSocioTitular
-        WHERE c.idSocioTitular = :idSocioTitular
+        SELECT *
+        FROM vwCuotas
+        WHERE idSocioTitular = :idSocioTitular
         ");
         $consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
         $consulta->execute();
