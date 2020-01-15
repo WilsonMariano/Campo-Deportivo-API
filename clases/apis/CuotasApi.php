@@ -5,11 +5,11 @@ require_once __DIR__ . '/../_FxEntidades.php';
 
 class CuotasApi {
 
-    public static function getBySocioTitular($request, $response, $args) {
+    public static function getBySocio($request, $response, $args) {
 
-        $idSocioTitular = json_decode($args['idSocioTitular']);
+        $idSocio = json_decode($args['idSocio']);
 
-        $res = Cuotas::GetBySocioTitular($idSocioTitular);
+        $res = Cuotas::GetBySocio($idSocio);
 
         if(sizeof($res) > 0)
             return $response->withJson([
@@ -20,7 +20,7 @@ class CuotasApi {
         else
         return $response->withJson([
             'ok'    => false,
-            'msg'   => 'No existen socios con ese id'
+            'msg'   => 'No existen recibos generados'
         ], 400);
         
     } 

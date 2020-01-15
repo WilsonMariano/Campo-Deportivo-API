@@ -115,11 +115,11 @@ class SocioApi {
     
     }
 
-    public static function GetTitular($request, $response, $args) {
+    public static function GetTitularByIdSocio($request, $response, $args) {
 
-        $idSocioTitular = json_decode($args['idSocioTitular']);
+        $idSocio = json_decode($args['idSocio']);
 
-        $res = Socios::GetTitular($idSocioTitular);
+        $res = Socios::GetTitularByIdSocio($idSocio);
 
         if($res != false)
             return $response->withJson([

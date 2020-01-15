@@ -39,7 +39,7 @@
         $this->post('/insertFamilia[/]',               \SocioApi::class . ':InsertFamilia');
         $this->put('/update[/]',                       \SocioApi::class . ':Update');
         $this->get('/getOne/{idSocio}',                \SocioApi::class . ':GetOne');
-        $this->get('/getTitular/{idSocioTitular}',     \SocioApi::class . ':GetTitular');
+        $this->get('/getTitular/{idSocio}',            \SocioApi::class . ':GetTitularByIdSocio');
         $this->get('/getGroupFamily/{idSocioTitular}', \SocioApi::class . ':GetGroupFamily');
     });
 
@@ -70,7 +70,7 @@
     $app->group('/cuotas', function () {
 
         $this->post('/insert[/]', \CuotasApi::class . ':Insert');
-        $this->get('/getCuotas/{idSocioTitular}', \CuotasApi::class . ':getBySocioTitular');
+        $this->get('/getCuotas/{idSocio}', \CuotasApi::class . ':getBySocio');
     });
 
 	$app->run();

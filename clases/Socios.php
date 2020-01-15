@@ -165,18 +165,11 @@ class Socios extends SociosTitulares {
 		return $arrObjEntidad;
   }
 
-  public static function GetTitular($idSocioTitular) {	
+  public static function GetTitularByIdSocio($idSocio) {	
 		 
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("
-    SELECT s.id AS 'idSocio', st.id AS 'idSocioTitular', s.nombre, s.apellido
-    FROM Socios as s
-    INNER JOIN
-    (SELECT * FROM Socios WHERE idSocioTitular = :idSocioTitular AND codParentesco = 'cod_parentesco_1') AS st
-    ON s.idSocioTitular = st.id  
-    WHERE st.id = :idSocioTitular
-    ");
-		$consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+		$consulta =$objetoAccesoDato->RetornarConsulta("CALL spGetSocioTitularByIdSocio(:idSocio)");
+		$consulta->bindValue(':idSocio',   $idSocio,   PDO::PARAM_INT);
 		$consulta->execute();
     $arrObjEntidad= $consulta->fetch(PDO::FETCH_ASSOC);	
 		

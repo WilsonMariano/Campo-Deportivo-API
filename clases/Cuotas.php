@@ -35,15 +35,17 @@ class Cuotas {
           $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
       }
 
-      public static function GetBySocioTitular($idSocioTitular) {	
+      public static function GetBySocio($idSocio) {	
 		 
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("
-        SELECT *
-        FROM vwCuotas
-        WHERE idSocioTitular = :idSocioTitular
+        SELECT c.id, c.fechaPago, c.fechaVencimiento, c.monto, c.descripcion, c.apellido, c.nombre, c.idSocio, c.idSocioTitular  
+        FROM vwCuotas AS c
+        INNER JOIN socios AS s
+        ON c.idSocioTitular = s.idSocioTitular
+        WHERE s.id = :idSocio
         ");
-        $consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+        $consulta->bindValue(':idSocio',   $idSocio,   PDO::PARAM_INT);
         $consulta->execute();
         $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
         
