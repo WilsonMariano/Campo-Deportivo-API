@@ -43,5 +43,20 @@ class Bonos {
     if($includePK == true)
       $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
   }
+
+  public static function GetBetweenDate($fechaDesde, $fechaHasta) {	
+		 
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT * from vwbonos
+    WHERE fechaEmision BETWEEN :fechaDesde AND :fechaHasta
+    ");
+    $consulta->bindValue(':fechaDesde',   $fechaDesde,   PDO::PARAM_STR);
+    $consulta->bindValue(':fechaHasta',   $fechaHasta,   PDO::PARAM_STR);
+    $consulta->execute();
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+    
+    return $arrObjEntidad;
+  }
   
 }

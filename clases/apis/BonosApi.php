@@ -37,8 +37,24 @@ class BonosApi {
                 'msg'    => "Error al insertar el bono"
             ], 500);
         }
+    }
+
+    public static function GetBetweenDate($request, $response) {
+
+        $params = $request->getQueryParams();
+
+        $res = Bonos::GetBetweenDate($params['fechaDesde'], $params['fechaHasta']);
+
+        if(sizeof($res) != 0)
+            return $response->withJson([
+                'ok'    => true,
+                'data'  => $res
+            ], 200);
         
-
-
+        else
+            return $response->withJson([
+                'ok'    => false,
+                'msg'  => "No se encontraron bonos"
+            ], 400);
     }
 }

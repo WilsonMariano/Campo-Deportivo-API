@@ -65,6 +65,7 @@
     $app->group('/bonos', function () {
 
         $this->post('/insert[/]', \BonosApi::class . ':Insert');
+        $this->get('/getBetweenDate[/]', \BonosApi::class . ':GetBetweenDate');
     });
 
     $app->group('/cuotas', function () {
