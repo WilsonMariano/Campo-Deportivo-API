@@ -133,15 +133,17 @@ class Socios extends SociosTitulares {
     return $consulta->rowCount();	
   }
 
-  public static function GetGroupFamily($idSocioTitular) {	
+  public static function GetGroupFamily($idSocioTitular, $codParentesco) {	
 		 
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("
     SELECT * 
     FROM vwSocios  
     WHERE idSocioTitular = :idSocioTitular
+    AND codParentesco = :codParentesco
     ");
 		$consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+		$consulta->bindValue(':codParentesco',    $codParentesco,    PDO::PARAM_STR);
 		$consulta->execute();
     $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
 		

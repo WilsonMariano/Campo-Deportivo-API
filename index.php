@@ -35,12 +35,12 @@
 
     $app->group('/socios', function () {
 
-        $this->post('/insert[/]',                      \SocioApi::class . ':Insert');
-        $this->post('/insertFamilia[/]',               \SocioApi::class . ':InsertFamilia');
-        $this->put('/update[/]',                       \SocioApi::class . ':Update');
-        $this->get('/getOne/{idSocio}',                \SocioApi::class . ':GetOne');
-        $this->get('/getTitular/{idSocio}',            \SocioApi::class . ':GetTitularByIdSocio');
-        $this->get('/getGroupFamily/{idSocioTitular}', \SocioApi::class . ':GetGroupFamily');
+        $this->post('/insert[/]',                                       \SocioApi::class . ':Insert');
+        $this->post('/insertFamilia[/]',                                \SocioApi::class . ':InsertFamilia');
+        $this->put('/update[/]',                                        \SocioApi::class . ':Update');
+        $this->get('/getOne/{idSocio}',                                 \SocioApi::class . ':GetOne');
+        $this->get('/getTitular/{idSocio}',                             \SocioApi::class . ':GetTitularByIdSocio');
+        $this->get('/getGroupFamily/{idSocioTitular}/{codParentesco}',  \SocioApi::class . ':GetGroupFamily');
     });
 
     $app->group('/generic', function () {
@@ -64,8 +64,10 @@
 
     $app->group('/bonos', function () {
 
-        $this->post('/insert[/]', \BonosApi::class . ':Insert');
-        $this->get('/getBetweenDate[/]', \BonosApi::class . ':GetBetweenDate');
+        $this->get('/getBetweenDate[/]',    \BonosApi::class . ':GetBetweenDate');
+        $this->post('/insert[/]',           \BonosApi::class . ':Insert');
+        $this->put('/cancelBono/{id}',     \BonosApi::class . ':CancelBono');
+
     });
 
     $app->group('/cuotas', function () {

@@ -57,4 +57,21 @@ class BonosApi {
                 'msg'  => "No se encontraron bonos"
             ], 400);
     }
+
+    public static function CancelBono($request, $response, $args)  {
+
+        $res = Bonos::CancelBono($args['id']);
+
+        if($res != 0)
+            return $response->withJson([
+                'ok'    => true,
+                'msg'   => "Bono anulado con éxito"
+            ], 200);
+
+        else
+            return $response->withJson([
+                'ok'    => false,
+                'msg'   => "El bono no pudo anularse"
+            ], 400);
+    }   
 }

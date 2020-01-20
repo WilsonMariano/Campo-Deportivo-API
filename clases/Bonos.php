@@ -58,5 +58,19 @@ class Bonos {
     
     return $arrObjEntidad;
   }
+
+  public static function CancelBono($idBono) {
+
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+    $consulta = $objetoAccesoDato->RetornarConsulta("
+    UPDATE Bonos 
+    SET codEstadoBono = 'cod_estado_bono_2'
+    WHERE id = :idBono
+    ");
+    $consulta->bindValue(':idBono', $idBono, PDO::PARAM_INT);
+    $consulta->execute();
+
+    return $consulta->rowCount();
+  }
   
 }

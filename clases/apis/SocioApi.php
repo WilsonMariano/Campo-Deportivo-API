@@ -73,9 +73,7 @@ class SocioApi {
 
     public static function GetGroupFamily($request, $response, $args) {
 
-        $idSocioTitular = json_decode($args['idSocioTitular']);
-
-        $res = Socios::GetGroupFamily($idSocioTitular);
+        $res = Socios::GetGroupFamily($args['idSocioTitular'], $args['codParentesco']);
 
         if(sizeof($res) > 0)
             return $response->withJson([
