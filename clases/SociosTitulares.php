@@ -27,5 +27,20 @@ class SociosTitulares {
   //   if($includePK == true)
   //     $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
   // }
+
+  // public static function GetOne($idSocioTitular) {	
+		 
+	// 	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+  //   $consulta =$objetoAccesoDato->RetornarConsulta("
+  //   SELECT *
+  //   FROM SociosTitulares
+  //   WHERE id = :idSocioTitular
+  //   ");
+	// 	$consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+	// 	$consulta->execute();
+  //   $obj= $consulta->fetch(PDO::FETCH_ASSOC);	
+		
+	// 	return $obj;
+  // }
   
 }

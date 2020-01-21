@@ -13,8 +13,11 @@ class SocioApi {
 
         $date = new DateTime();
         $objEntidad->hash = md5($date->getTimestamp() + $objEntidad->dni);
+        $objEntidad->fechaIngreso = date('Y-m-d');
+        
 
         $res = Socios::Insertar($objEntidad);
+
 
         if($res == 2) {
             return $response->withJson([

@@ -22,7 +22,7 @@ class Socios extends SociosTitulares {
 
       $this->id = $arrData["id"] ?? null;
       $this->idSocioTitular = $arrData["idSocioTitular"] ?? null;
-      $this->activo = $arrData["activo"] ?? null;
+      $this->activo = $arrData["activo"];
       $this->nombre = $arrData["nombre"];
       $this->apellido = $arrData["apellido"];
       $this->dni = $arrData["dni"];
@@ -30,8 +30,8 @@ class Socios extends SociosTitulares {
       $this->codParentesco = $arrData["codParentesco"];
       $this->hash = $arrData["hash"] ?? null;
       $this->codTipoSocio = $arrData["codTipoSocio"];
-      $this->nroAfiliado = $arrData["nroAfiliado"];
-      $this->fechaIngreso = $arrData["fechaIngreso"];
+      $this->nroAfiliado = $arrData["nroAfiliado"] ?? null;
+      $this->fechaIngreso = $arrData["fechaIngreso"] ?? null;
 
     }
   }
@@ -61,13 +61,14 @@ class Socios extends SociosTitulares {
     CALL insertSocio(
       :codTipoSocio, 
       :nroAfiliado,
+      :fechaIngreso,
       :nombre,
       :apellido,
       :dni,
       :fechaNacimiento,
       :codParentesco,
-      :hash,
-      :fechaIngreso)");
+      :activo,
+      :hash)");
 		$consulta->bindValue(':codTipoSocio',     $socio->codTipoSocio,     PDO::PARAM_STR);
 		$consulta->bindValue(':nroAfiliado',      $socio->nroAfiliado,      PDO::PARAM_INT);
 		$consulta->bindValue(':nombre',           $socio->nombre,           PDO::PARAM_STR);
@@ -75,8 +76,9 @@ class Socios extends SociosTitulares {
 		$consulta->bindValue(':dni',              $socio->dni,              PDO::PARAM_INT);
 		$consulta->bindValue(':fechaNacimiento',  $socio->fechaNacimiento,  PDO::PARAM_STR);
 		$consulta->bindValue(':codParentesco',    $socio->codParentesco,    PDO::PARAM_STR);
+		$consulta->bindValue(':activo',           $socio->activo,           PDO::PARAM_INT);
 		$consulta->bindValue(':hash',             $socio->hash,             PDO::PARAM_STR);
-		$consulta->bindValue(':fechaIngreso',     $socio->hash,             PDO::PARAM_STR);
+		$consulta->bindValue(':fechaIngreso',     $socio->fechaIngreso,     PDO::PARAM_STR);
 		$consulta->execute();
 		
     return $consulta->rowCount();	
