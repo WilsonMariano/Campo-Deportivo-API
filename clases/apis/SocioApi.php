@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Socios.php';
+require_once __DIR__ . '/../Ingresos.php';
 require_once __DIR__ . '/../_FxEntidades.php';
 
 class SocioApi {
@@ -38,6 +39,10 @@ class SocioApi {
         // Obtengo instancia de clase correspondiente.
         $objEntidad = FxEntidades::GetObjEntidad('Socios', $apiParamsBody);
 
+        // Creo y asigno el hash
+        $date = new DateTime();
+        $objEntidad->hash = md5($date->getTimestamp() + $objEntidad->dni);
+
         $res = Socios::InsertarFamilia($objEntidad);
 
         if($res == 1) {
@@ -55,7 +60,7 @@ class SocioApi {
 
     public static function Update($request, $response, $args) {
         $apiParamsBody = $request->getParsedBody();
-
+        
         // Obtengo instancia de clase correspondiente.
         $objEntidad = FxEntidades::GetObjEntidad('Socios', $apiParamsBody);
 
@@ -149,6 +154,21 @@ class SocioApi {
         
         var_dump($age);
 
+    }
+
+    public static function RegisterSocio($request, $response, $args) {
+
+        $params = $request->getQueryParams();
+
+        $socio = Socios::GetTitularByIdSocio($params['hash']);
+
+        $fecha = date("Y-m-d");
+        $hora = date("H:i");
+
+        $res = Ingresos::Insert($socio['id'], $fecha, $hora);
+
+        
+        
 
     }
 

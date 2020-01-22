@@ -30,4 +30,19 @@ class Ingresos {
       $consulta->bindValue(':id',     $objEntidad->id,       \PDO::PARAM_INT);
   }
 
+  public static function Insert($idSocio, $fecha, $hora)  {
+
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    INSERT INTO Ingresos (idSocio, fecha, hora)
+    VALUES (:idSocio, :fecha, :hora)
+    ");
+		$consulta->bindValue(':idSocio',      $idSocio,    PDO::PARAM_INT);
+		$consulta->bindValue(':fecha',        $fecha,      PDO::PARAM_STR);
+    $consulta->bindValue(':hora',         $hora,       PDO::PARAM_STR);
+    $consulta->execute();
+
+    return $consulta->rowCount();
+  }
+
 }

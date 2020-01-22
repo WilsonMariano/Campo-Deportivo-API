@@ -37,6 +37,7 @@
 
         $this->post('/insert[/]',                                       \SocioApi::class . ':Insert');
         $this->post('/insertFamilia[/]',                                \SocioApi::class . ':InsertFamilia');
+        $this->post('/register[/]',                                     \SocioApi::class . ':RegisterSocio');
         $this->put('/update[/]',                                        \SocioApi::class . ':Update');
         $this->get('/getOne/{idSocio}',                                 \SocioApi::class . ':GetOne');
         $this->get('/getTitular/{idSocio}',                             \SocioApi::class . ':GetTitularByIdSocio');

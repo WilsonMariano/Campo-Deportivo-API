@@ -29,7 +29,7 @@ class Socios extends SociosTitulares {
       $this->fechaNacimiento = $arrData["fechaNacimiento"];
       $this->codParentesco = $arrData["codParentesco"];
       $this->hash = $arrData["hash"] ?? null;
-      $this->codTipoSocio = $arrData["codTipoSocio"];
+      $this->codTipoSocio = $arrData["codTipoSocio"]  ?? null;
       $this->nroAfiliado = $arrData["nroAfiliado"] ?? null;
       $this->fechaIngreso = $arrData["fechaIngreso"] ?? null;
 
@@ -109,6 +109,7 @@ class Socios extends SociosTitulares {
 		$consulta =$objetoAccesoDato->RetornarConsulta("
     CALL updateSocio(
       :id,
+      :idSocioTitular,
       :codTipoSocio, 
       :nroAfiliado,
       :nombre,
@@ -116,10 +117,9 @@ class Socios extends SociosTitulares {
       :dni,
       :fechaNacimiento,
       :codParentesco,
-      :hash,
-      :fechaIngreso,
       :activo)");
 		$consulta->bindValue(':id',               $socio->id,               PDO::PARAM_INT);
+		$consulta->bindValue(':idSocioTitular',   $socio->idSocioTitular,   PDO::PARAM_INT);
 		$consulta->bindValue(':codTipoSocio',     $socio->codTipoSocio,     PDO::PARAM_STR);
 		$consulta->bindValue(':nroAfiliado',      $socio->nroAfiliado,      PDO::PARAM_INT);
 		$consulta->bindValue(':nombre',           $socio->nombre,           PDO::PARAM_STR);
@@ -127,8 +127,6 @@ class Socios extends SociosTitulares {
 		$consulta->bindValue(':dni',              $socio->dni,              PDO::PARAM_INT);
 		$consulta->bindValue(':fechaNacimiento',  $socio->fechaNacimiento,  PDO::PARAM_STR);
 		$consulta->bindValue(':codParentesco',    $socio->codParentesco,    PDO::PARAM_STR);
-		$consulta->bindValue(':hash',             $socio->hash,             PDO::PARAM_STR);
-		$consulta->bindValue(':fechaIngreso',     $socio->fechaIngreso,     PDO::PARAM_STR);
 		$consulta->bindValue(':activo',           $socio->activo,           PDO::PARAM_INT);
 		$consulta->execute();
 		
@@ -178,6 +176,21 @@ class Socios extends SociosTitulares {
     $arrObjEntidad= $consulta->fetch(PDO::FETCH_ASSOC);	
 		
 		return $arrObjEntidad;
+  }
+
+  public static function GetIdByHash($hash) {	
+		 
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT *
+    FROM Socios  
+    WHERE hash = :hash
+    ");
+		$consulta->bindValue(':hash',   $hash,   PDO::PARAM_INT);
+		$consulta->execute();
+    $obj= $consulta->fetch(PDO::FETCH_ASSOC);	
+		
+		return $obj;
   }
 
 }
