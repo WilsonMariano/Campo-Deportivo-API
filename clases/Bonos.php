@@ -59,6 +59,23 @@ class Bonos {
     return $arrObjEntidad;
   }
 
+  public static function GetByDateAndIdSocio($fechaDesde, $idSocio) {	
+		 
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT * from vwbonos
+    WHERE fechaAsignacion >= :fechaDesde 
+    AND idSocio = :idSocio 
+    AND codEstadoBono != 'cod_estado_bono_2'
+    ");
+    $consulta->bindValue(':fechaDesde',   $fechaDesde,    PDO::PARAM_STR);
+    $consulta->bindValue(':idSocio',      $idSocio,       PDO::PARAM_INT);
+    $consulta->execute();
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+    
+    return $arrObjEntidad;
+  }
+
   public static function CancelBono($idBono) {
 
     $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();

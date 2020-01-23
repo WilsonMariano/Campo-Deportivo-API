@@ -153,16 +153,21 @@ class Socios extends SociosTitulares {
   public static function Getone($idSocio) {	
 		 
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("
-    SELECT s.id, s.idSocioTitular, s.nombre, s.apellido, s.dni, s.fechaNacimiento, s.codParentesco, s.activo, s.hash, st.codTipoSocio, st.nroAfiliado, st.fechaIngreso 
-    FROM Socios as s
-    INNER JOIN SociosTitulares as st
-    ON s.idSocioTitular = st.id  
-    WHERE s.id = :idSocio
+		// $consulta =$objetoAccesoDato->RetornarConsulta("
+    // SELECT s.id, s.idSocioTitular, s.nombre, s.apellido, s.dni, s.fechaNacimiento, s.codParentesco, s.activo, s.hash, st.codTipoSocio, st.nroAfiliado, st.fechaIngreso 
+    // FROM Socios as s
+    // INNER JOIN SociosTitulares as st
+    // ON s.idSocioTitular = st.id  
+    // WHERE s.id = :idSocio
+    // ");
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT *
+    FROM vwSocios
+    WHERE id = :idSocio
     ");
 		$consulta->bindValue(':idSocio',   $idSocio,   PDO::PARAM_INT);
 		$consulta->execute();
-    $arrObjEntidad= $consulta->fetchObject('Socios');	
+    $arrObjEntidad= $consulta->fetch(PDO::FETCH_ASSOC);	
 		
 		return $arrObjEntidad;
   }

@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../Socios.php';
+require_once __DIR__ . '/../Bonos.php';
+require_once __DIR__ . '/../Cuotas.php';
 require_once __DIR__ . '/../Ingresos.php';
 require_once __DIR__ . '/../_FxEntidades.php';
 
@@ -105,7 +107,7 @@ class SocioApi {
 
     
         // CALCULAR EDAD!!!
-        $res->edad = 20;
+        $res['edad'] = 20;
 
         if($res != false)
             return $response->withJson([
@@ -158,17 +160,60 @@ class SocioApi {
 
     public static function RegisterSocio($request, $response, $args) {
 
-        $params = $request->getQueryParams();
+        $params = $request->getParsedBody();
 
-        $socio = Socios::GetTitularByIdSocio($params['hash']);
+        if($params['tipo'] == 'hash')
+            $method = 'GetIdByHash';
+        else
+            $method = 'GetOne';
 
+        // Recupero el socio 
+        $socio = Socios::$method($params['valor']);
+
+        // Si no existe el socio
+        if(!$socio)
+            return $response->withJson([
+                'ok'    => false,
+                'msg'   => 'Socio inexistente'
+            ], 200);
+
+        // Si el socio esta inactivo
+        if($socio['activo'] == 0)
+            return $response->withJson([
+                'ok'    => false,
+                'msg'   => 'Socio inactivo'
+            ], 200);
+
+        // Fecha hoy
         $fecha = date("Y-m-d");
         $hora = date("H:i");
 
+        // Registro el ingreso
         $res = Ingresos::Insert($socio['id'], $fecha, $hora);
 
+        // Si el ingreso falla
+        if($res != 1)
+            return $response->withJson([
+                'ok'    => false,
+                'msg'   => 'Se produjo un error, intente mas tarde'
+            ], 400);
+
         
+        // Recupero el ultimo vencimiento del socio
+        $venc = Cuotas::GetLastVencimiento($socio['idSocioTitular']);     
         
+        // Recupero los bonos emitidos
+        $bonos = Bonos::GetByDateAndIdSocio($fecha, $socio['id']);
+
+
+        return $response->withJson([
+            'ok'    => true,
+            'data'  => array(
+                'socio'       => $socio,  
+                'vencimiento' => $venc['fechaVencimiento'],
+                'bonos'       => $bonos
+            )
+        ]);      
 
     }
 

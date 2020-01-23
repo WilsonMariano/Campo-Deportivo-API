@@ -51,4 +51,21 @@ class Cuotas {
         
         return $arrObjEntidad;
       }
+
+      public static function GetLastVencimiento($idSocioTitular) {	
+		 
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("
+        SELECT fechaVencimiento
+        FROM cuotas 
+        WHERE idSocioTitular = :idSocioTitular
+        ORDER BY fechaVencimiento DESC LIMIT 1
+        ");
+        $consulta->bindValue(':idSocioTitular',   $idSocioTitular,   PDO::PARAM_INT);
+        $consulta->execute();
+        $obj= $consulta->fetch(PDO::FETCH_ASSOC);	
+        
+        return $obj;
+      }
+      
 }
