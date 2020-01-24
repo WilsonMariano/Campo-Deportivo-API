@@ -83,12 +83,12 @@ class FxEntidades {
 		return $consulta->rowCount() > 0 ? true : false;
 	}
 
-	public static function GetPagedWithOptionalFilter($entityName, $column1, $text1, $column2, $text2, $rows, $page) {
+	public static function GetPagedWithOptionalFilter($entityName, $column1, $text1, $stict, $column2, $text2, $rows, $page) {
 		
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
 		$consulta =$objetoAccesoDato->RetornarConsulta(
-			"call spGetPagedWithOptionalFilter('$entityName', '$column1', '$text1', '$column2', '$text2', $rows, $page, @o_total_rows)");
+			"call spGetPagedWithOptionalFilter('$entityName', '$column1', '$text1', $stict, '$column2', '$text2', $rows, $page, @o_total_rows)");
 
 		$consulta->execute();
 		$arrResult= $consulta->fetchAll(PDO::FETCH_ASSOC);	

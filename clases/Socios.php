@@ -188,7 +188,7 @@ class Socios extends SociosTitulares {
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("
     SELECT *
-    FROM Socios  
+    FROM vwSocios  
     WHERE hash = :hash
     ");
 		$consulta->bindValue(':hash',   $hash,   PDO::PARAM_INT);
