@@ -50,9 +50,28 @@ class Bonos {
     $consulta =$objetoAccesoDato->RetornarConsulta("
     SELECT * from vwbonos
     WHERE fechaEmision BETWEEN :fechaDesde AND :fechaHasta
+    ORDER BY fechaEmision ASC
     ");
     $consulta->bindValue(':fechaDesde',   $fechaDesde,   PDO::PARAM_STR);
     $consulta->bindValue(':fechaHasta',   $fechaHasta,   PDO::PARAM_STR);
+    $consulta->execute();
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+    
+    return $arrObjEntidad;
+  }
+
+  public static function GetByDateAndPrestacion($fechaAsignacion, $codPrestacion) {	
+		 
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT * from vwbonos
+    WHERE fechaAsignacion = :fechaAsignacion
+    AND codPrestacion = :codPrestacion
+    AND codEstadoBono = 'cod_estado_bono_1'
+    ORDER BY horaAsignacion ASC
+    ");
+    $consulta->bindValue(':fechaAsignacion',   $fechaAsignacion,   PDO::PARAM_STR);
+    $consulta->bindValue(':codPrestacion',     $codPrestacion,     PDO::PARAM_STR);
     $consulta->execute();
     $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
     
@@ -70,6 +89,26 @@ class Bonos {
     ");
     $consulta->bindValue(':fechaDesde',   $fechaDesde,    PDO::PARAM_STR);
     $consulta->bindValue(':idSocio',      $idSocio,       PDO::PARAM_INT);
+    $consulta->execute();
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+    
+    return $arrObjEntidad;
+  }
+
+  public static function GetAvailability($fechaAsignacion, $horaDesde, $horaHasta, $codPrestacion) {	
+		 
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT *
+    FROM bonos
+    WHERE fechaAsignacion = :fechaAsignacion 
+    AND codPrestacion = :codPrestacion
+    AND horaAsignacion > :horaDesde AND horaAsignacion < :horaHasta 
+    ");
+    $consulta->bindValue(':fechaAsignacion',    $fechaAsignacion,     PDO::PARAM_STR);
+    $consulta->bindValue(':horaDesde',          $horaDesde,           PDO::PARAM_STR);
+    $consulta->bindValue(':horaHasta',          $horaHasta,           PDO::PARAM_STR);
+    $consulta->bindValue(':codPrestacion',      $codPrestacion,       PDO::PARAM_STR);
     $consulta->execute();
     $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
     

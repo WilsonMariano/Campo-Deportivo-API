@@ -25,6 +25,26 @@ class CuotasApi {
         
     } 
 
+    public static function GetLastVencimiento($request, $response, $args) {
+
+        $idSocioTitular = json_decode($args['idSocioTitular']);
+
+        $res = Cuotas::GetLastVencimiento($idSocioTitular);
+
+        if(sizeof($res) > 0)
+            return $response->withJson([
+                'ok'    => true,
+                'data'  => $res['fechaVencimiento']
+            ], 200);
+
+        else
+        return $response->withJson([
+            'ok'    => false,
+            'msg'   => 'No existen datos'
+        ], 400);
+        
+    } 
+
     public static function Insert($request, $response) {
 
         $apiParams = $request->getParsedBody();	

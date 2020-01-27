@@ -13,6 +13,7 @@
     require_once 'clases/apis/ValoresApi.php';
     require_once 'clases/apis/BonosApi.php';
     require_once 'clases/apis/CuotasApi.php';
+    require_once 'clases/apis/FuncionalidadesApi.php';
    
     $config['displayErrorDetails'] = true;
     $config['addContentLengthHeader'] = false;
@@ -65,9 +66,10 @@
 
     $app->group('/bonos', function () {
 
-        $this->get('/getBetweenDate[/]',    \BonosApi::class . ':GetBetweenDate');
-        $this->post('/insert[/]',           \BonosApi::class . ':Insert');
-        $this->put('/cancelBono/{id}',     \BonosApi::class . ':CancelBono');
+        $this->get('/getBetweenDate[/]',            \BonosApi::class . ':GetBetweenDate');
+        $this->get('/getByDateAndPrestacion[/]',    \BonosApi::class . ':GetByDateAndPrestacion');
+        $this->post('/insert[/]',                   \BonosApi::class . ':Insert');
+        $this->put('/cancelBono/{id}',              \BonosApi::class . ':CancelBono');
 
     });
 
@@ -75,6 +77,13 @@
 
         $this->post('/insert[/]', \CuotasApi::class . ':Insert');
         $this->get('/getCuotas/{idSocio}', \CuotasApi::class . ':getBySocio');
+        $this->get('/getLastVencimiento/{idSocioTitular}', \CuotasApi::class . ':GetLastVencimiento');
+    });
+
+    $app->group('/funcionalidades', function () {
+
+        $this->get('/getCodPrestacion[/]', \FuncionalidadesApi::class . ':GetCodPrestacion');
+        $this->get('/getFuncionalidad[/]', \FuncionalidadesApi::class . ':GetFuncionalidad');
     });
 
 	$app->run();
