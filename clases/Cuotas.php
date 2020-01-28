@@ -67,5 +67,22 @@ class Cuotas {
         
         return $obj;
       }
+
+      public static function GetBetweenDates($fechaDesde, $fechaHasta) {	
+		 
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("
+        SELECT *
+        FROM vwCuotas 
+        WHERE fechaPago between :fechaDesde AND :fechaHasta
+        ORDER BY fechaPago ASC
+        ");
+        $consulta->bindValue(':fechaDesde',   $fechaDesde,   PDO::PARAM_STR);
+        $consulta->bindValue(':fechaHasta',   $fechaHasta,   PDO::PARAM_STR);
+        $consulta->execute();
+        $obj = $consulta->fetchAll(PDO::FETCH_ASSOC);	
+        
+        return $obj;
+      }
       
 }

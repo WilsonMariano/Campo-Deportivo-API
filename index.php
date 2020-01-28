@@ -78,6 +78,7 @@
         $this->post('/insert[/]', \CuotasApi::class . ':Insert');
         $this->get('/getCuotas/{idSocio}', \CuotasApi::class . ':getBySocio');
         $this->get('/getLastVencimiento/{idSocioTitular}', \CuotasApi::class . ':GetLastVencimiento');
+        $this->get('/getBetweenDates[/]', \CuotasApi::class . ':GetBetweenDates');
     });
 
     $app->group('/funcionalidades', function () {
