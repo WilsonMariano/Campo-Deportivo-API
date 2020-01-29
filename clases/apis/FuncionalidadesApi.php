@@ -9,7 +9,7 @@ class FuncionalidadesApi
 
         $apiParams = $request->getQueryParams();
 
-        $res = Funcionalidades::GetCodPrestacion($apiParams['codTipoSocio']);
+        $res = Funcionalidades::GetCodPrestacion($apiParams['codTipoSocio'], $apiParams['codParentesco']);
 
         if(sizeof($res) > 0){
 

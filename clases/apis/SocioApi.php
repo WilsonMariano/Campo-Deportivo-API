@@ -6,6 +6,8 @@ require_once __DIR__ . '/../Cuotas.php';
 require_once __DIR__ . '/../Ingresos.php';
 require_once __DIR__ . '/../_FxEntidades.php';
 
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
 class SocioApi {
 
     public static function Insert($request, $response, $args) {

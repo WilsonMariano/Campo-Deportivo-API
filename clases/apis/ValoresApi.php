@@ -11,7 +11,7 @@ class ValoresApi {
 
         $rangoEdad = RangoEdad::getRangoWithAge($params['edad']);
 
-        $valor = Valores::GetValor($params['codPrestacion'], $rangoEdad->codEdad, $params['codDia'], $params['codTipoSocio']);
+        $valor = Valores::GetValor($params['codPrestacion'], $rangoEdad->codEdad, $params['codDia'], $params['codTipoSocio'], $params['codParentesco']);
 
         if($valor != false) {
 

@@ -9,7 +9,7 @@ class Funcionalidades {
     public $codFuncionalidad;
     public $habilitado;
 
-    public static function GetCodPrestacion($codTipoSocio) {
+    public static function GetCodPrestacion($codTipoSocio, $codParentesco) {
 
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("
@@ -18,11 +18,13 @@ class Funcionalidades {
         INNER JOIN Diccionario AS d
         ON f.codFuncionalidad = d.clave
         WHERE codTipoSocio = :codTipoSocio
+        AND codParentesco = :codParentesco
         AND codFuncionalidad like 'cod_prestacion%'
         AND habilitado = 1
         ");
 
         $consulta->bindValue(':codTipoSocio',   $codTipoSocio,   PDO::PARAM_STR);
+        $consulta->bindValue(':codParentesco',   $codParentesco,   PDO::PARAM_STR);
         $consulta->execute();
         $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
             
