@@ -45,4 +45,21 @@ class Ingresos {
     return $consulta->rowCount();
   }
 
+  public static function GetBetweenDates($fechaDesde, $fechaHasta) {	
+		 
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT *
+    FROM vwIngresos 
+    WHERE fecha between :fechaDesde AND :fechaHasta
+    ORDER BY fecha ASC
+    ");
+    $consulta->bindValue(':fechaDesde',   $fechaDesde,   PDO::PARAM_STR);
+    $consulta->bindValue(':fechaHasta',   $fechaHasta,   PDO::PARAM_STR);
+    $consulta->execute();
+    $obj = $consulta->fetchAll(PDO::FETCH_ASSOC);	
+    
+    return $obj;
+  }
+
 }

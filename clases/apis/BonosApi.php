@@ -12,31 +12,35 @@ class BonosApi {
         $obj = new Bonos($apiParams);
 
 
-        // Valido que haya disponibilidad de horario
-        if($obj->codPrestacion == 'cod_prestacion_1') {
+        if($obj->codPrestacion != 'cod_prestacion_3') {
 
-            $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, 1);
-            $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, 1);
-        }
+            // Valido que haya disponibilidad de horario
+            if($obj->codPrestacion == 'cod_prestacion_1') {
 
-        if($obj->codPrestacion == 'cod_prestacion_2') {
+                $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, 1);
+                $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, 1);
+            }
 
-            $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, 4);
-            $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, 4);
-        }
+            if($obj->codPrestacion == 'cod_prestacion_2') {
 
-        $res = Bonos::GetAvailability($obj->fechaAsignacion, $horaDesde, $horaHasta, $obj->codPrestacion);
+                $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, 4);
+                $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, 4);
+            }
 
 
 
-        if(sizeof($res) != 0)
-            return $response->withJson([
-                'ok'    => false,
-                'msg'    => "Ya existe un bono asignado en ese rango horario"
-            ], 200);
+            $res = Bonos::GetAvailability($obj->fechaAsignacion, $horaDesde, $horaHasta, $obj->codPrestacion);
+
+
+
+            if(sizeof($res) != 0)
+                return $response->withJson([
+                    'ok'    => false,
+                    'msg'    => "Ya existe un bono asignado en ese rango horario"
+                ], 200);
         
        
-
+        }
 
         $res = FxEntidades::InsertOne($obj);
 

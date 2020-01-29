@@ -14,6 +14,7 @@
     require_once 'clases/apis/BonosApi.php';
     require_once 'clases/apis/CuotasApi.php';
     require_once 'clases/apis/FuncionalidadesApi.php';
+    require_once 'clases/apis/IngresosApi.php';
    
     $config['displayErrorDetails'] = true;
     $config['addContentLengthHeader'] = false;
@@ -85,6 +86,11 @@
 
         $this->get('/getCodPrestacion[/]', \FuncionalidadesApi::class . ':GetCodPrestacion');
         $this->get('/getFuncionalidad[/]', \FuncionalidadesApi::class . ':GetFuncionalidad');
+    });
+
+    $app->group('/ingresos', function () {
+
+        $this->get('/getBetweenDates[/]', \IngresosApi::class . ':GetBetweenDates');
     });
 
 	$app->run();
