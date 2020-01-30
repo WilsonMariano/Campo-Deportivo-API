@@ -5,6 +5,7 @@ require_once __DIR__ . '/../Bonos.php';
 require_once __DIR__ . '/../Cuotas.php';
 require_once __DIR__ . '/../Ingresos.php';
 require_once __DIR__ . '/../_FxEntidades.php';
+require_once __DIR__ . '/../_FxGlobales.php';
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
@@ -106,10 +107,10 @@ class SocioApi {
         $idSocio = json_decode($args['idSocio']);
 
         $res = Socios::GetOne($idSocio);
-
     
         // CALCULAR EDAD!!!
-        $res['edad'] = 20;
+        $res['edad'] = _FxGlobales::CalculateAge($res['fechaNacimiento']);
+        
 
         if($res != false)
             return $response->withJson([

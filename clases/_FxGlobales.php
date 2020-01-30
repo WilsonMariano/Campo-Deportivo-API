@@ -29,4 +29,23 @@ class _FxGlobales {
         
         return $horasTotales . ':' . $minTotales;
     }
+
+    public static function CalculateAge($fechaNac) {
+
+        list($y, $m, $d) = explode('-', $fechaNac);
+
+        $dia = date('j');
+        $mes = date('n');
+        $anio = date('Y');
+
+        $edad = $anio - $y;
+
+        if($mes == $m && $d > $dia)
+            $edad--;
+        
+        if($mes <  $m)
+            $edad--;
+
+        return  $edad;        
+    }
 }
