@@ -106,4 +106,22 @@ class FxEntidades {
 		return $result;					
 	}
 
+	public static function GetIngresosCaja($fechaDesde, $fechaHasta) {	
+		 
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("
+        SELECT * FROM 
+		((SELECT fechaPago AS 'fecha', monto, descripcion, apellido, nombre, idSocio FROM vwcuotas) UNION 
+		(SELECT fechaEmision AS 'fecha', monto, prestacion AS 'descripcion', apellido, nombre, idSocio FROM vwbonos)) AS i
+		WHERE i.fecha BETWEEN :fechaDesde AND :fechaHasta
+		ORDER BY i.fecha ASC
+        ");
+        $consulta->bindValue(':fechaDesde',   $fechaDesde,   PDO::PARAM_STR);
+        $consulta->bindValue(':fechaHasta',   $fechaHasta,   PDO::PARAM_STR);
+        $consulta->execute();
+        $obj = $consulta->fetchAll(PDO::FETCH_ASSOC);	
+        
+        return $obj;
+      }
+
 }

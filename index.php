@@ -53,6 +53,7 @@
         $this->get('/all[/]', \GenericApi::class . ':GetAll');  
         $this->get('/one/{id}', \GenericApi::class . ':GetOne');   
         $this->get('/paged[/]', \GenericApi::class . ':GetPagedWithOptionalFilter');
+        $this->get('/getIngresosCaja[/]', \GenericApi::class . ':GetIngresosCaja');
     });
 
     $app->group('/diccionario', function () {
