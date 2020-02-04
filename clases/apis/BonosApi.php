@@ -12,33 +12,52 @@ class BonosApi {
         $obj = new Bonos($apiParams);
 
 
+        // Si la prestacion no es Predio
         if($obj->codPrestacion != 'cod_prestacion_3') {
 
-            // Valido que haya disponibilidad de horario
-            if($obj->codPrestacion == 'cod_prestacion_1') {
+            $duracion = 0;
+            $arrPrestaciones = array();
 
-                $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, 1);
-                $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, 1);
+            // Si la prestacion es de tipo cancha, establezco la duracion en 1 hora
+            if($obj->codPrestacion == 'cod_prestacion_1' || $obj->codPrestacion == 'cod_prestacion_4' || $obj->codPrestacion == 'cod_prestacion_5') {
+
+                $duracion = 1;
+
+                // Armo el array para buscar las prestaciones
+                // Si se reserva la cancha 1 no puede estar reservada ni la 1, ni la 3
+                // Si se reserva la cancha 2 no puede estar reservada ni la 2, ni la 3
+                // Si se reserva la cancha 3 no puede estar reservada ni la 1, ni la 2, ni la 3
+                if($obj->codPrestacion == 'cod_prestacion_1')
+                    array_push($arrPrestaciones, 'cod_prestacion_1', 'cod_prestacion_5');
+
+                if($obj->codPrestacion == 'cod_prestacion_4')
+                    array_push($arrPrestaciones, 'cod_prestacion_4', 'cod_prestacion_5');
+                
+                if($obj->codPrestacion == 'cod_prestacion_5')
+                    array_push($arrPrestaciones, 'cod_prestacion_1', 'cod_prestacion_4', 'cod_prestacion_5');
             }
 
+            // Si la prestacion es de tipo quincho, establezco la duracion en 4 horas
             if($obj->codPrestacion == 'cod_prestacion_2') {
 
-                $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, 4);
-                $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, 4);
+                $duracion = 4;
+                array_push($arrPrestaciones, 'cod_prestacion_2');
+                
             }
 
+            // Calculo la cantidad de horas de margen
+            $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, $duracion);
+            $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, $duracion);
 
 
-            $res = Bonos::GetAvailability($obj->fechaAsignacion, $horaDesde, $horaHasta, $obj->codPrestacion);
-
-
+            // Esto devuelve un array de bonos dentro del periodo buscado
+            $res = Bonos::GetAvailability($obj->fechaAsignacion, $horaDesde, $horaHasta, $arrPrestaciones);
 
             if(sizeof($res) != 0)
                 return $response->withJson([
                     'ok'    => false,
                     'msg'    => "Ya existe un bono asignado en ese rango horario"
                 ], 200);
-        
        
         }
 

@@ -95,20 +95,36 @@ class Bonos {
     return $arrObjEntidad;
   }
 
-  public static function GetAvailability($fechaAsignacion, $horaDesde, $horaHasta, $codPrestacion) {	
-		 
+  public static function GetAvailability($fechaAsignacion, $horaDesde, $horaHasta, $arrPrestaciones) {	
+    
     $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-    $consulta =$objetoAccesoDato->RetornarConsulta("
-    SELECT *
-    FROM bonos
-    WHERE fechaAsignacion = :fechaAsignacion 
-    AND codPrestacion = :codPrestacion
-    AND horaAsignacion > :horaDesde AND horaAsignacion < :horaHasta 
-    ");
-    $consulta->bindValue(':fechaAsignacion',    $fechaAsignacion,     PDO::PARAM_STR);
-    $consulta->bindValue(':horaDesde',          $horaDesde,           PDO::PARAM_STR);
-    $consulta->bindValue(':horaHasta',          $horaHasta,           PDO::PARAM_STR);
-    $consulta->bindValue(':codPrestacion',      $codPrestacion,       PDO::PARAM_STR);
+    $query = "
+    SELECT * 
+    FROM bonos WHERE fechaAsignacion = ? 
+    AND horaAsignacion > ? AND horaAsignacion < ? AND";
+
+    for($i = 0; $i < sizeof($arrPrestaciones); $i++) {
+
+      if($i == 0)
+        $query .= " (codPrestacion = ?";
+      else
+        $query .= " OR codPrestacion = ?";
+    }
+
+    $query .= ")";
+
+    $consulta = $objetoAccesoDato->RetornarConsulta($query);
+
+    $consulta->bindValue(1,          $fechaAsignacion,     PDO::PARAM_STR);
+    $consulta->bindValue(2,          $horaDesde,           PDO::PARAM_STR);
+    $consulta->bindValue(3,          $horaHasta,           PDO::PARAM_STR);
+
+    for($i = 0; $i < sizeof($arrPrestaciones); $i++) {
+
+      $consulta->bindValue($i + 4,   $arrPrestaciones[$i],          PDO::PARAM_STR);
+
+    }
+
     $consulta->execute();
     $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
     

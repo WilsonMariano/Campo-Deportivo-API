@@ -21,6 +21,7 @@ class Funcionalidades {
         AND codParentesco = :codParentesco
         AND codFuncionalidad like 'cod_prestacion%'
         AND habilitado = 1
+        ORDER BY d.valor ASC
         ");
 
         $consulta->bindValue(':codTipoSocio',   $codTipoSocio,   PDO::PARAM_STR);
