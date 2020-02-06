@@ -101,6 +101,7 @@ class Bonos {
     $query = "
     SELECT * 
     FROM bonos WHERE fechaAsignacion = ? 
+    AND codEstadoBono = 'cod_estado_bono_1'
     AND horaAsignacion > ? AND horaAsignacion < ? AND";
 
     for($i = 0; $i < sizeof($arrPrestaciones); $i++) {
@@ -143,6 +144,23 @@ class Bonos {
     $consulta->execute();
 
     return $consulta->rowCount();
+  }
+
+  public static function GetForCalendar($fechaDesde) {	
+		 
+    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    $consulta =$objetoAccesoDato->RetornarConsulta("
+    SELECT id, nombre, apellido, fechaAsignacion, horaAsignacion, codPrestacion from vwbonos
+    WHERE fechaAsignacion >= :fechaDesde
+    AND codPrestacion != 'cod_prestacion_3' 
+    AND codEstadoBono = 'cod_estado_bono_1'
+    ORDER BY fechaAsignacion ASC
+    ");
+    $consulta->bindValue(':fechaDesde',   $fechaDesde,   PDO::PARAM_STR);
+    $consulta->execute();
+    $arrObjEntidad= $consulta->fetchAll(PDO::FETCH_ASSOC);	
+    
+    return $arrObjEntidad;
   }
   
 }

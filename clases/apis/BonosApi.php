@@ -142,4 +142,23 @@ class BonosApi {
                 'msg'   => "El bono no pudo anularse"
             ], 400);
     }   
+
+    public static function GetForCalendar($request, $response) {
+
+        $fecha = date('Y') .'-'. date('n') .'-'. date('j');
+
+        $res = Bonos::GetForCalendar($fecha);
+
+        if(sizeof($res) != 0)
+            return $response->withJson([
+                'ok'    => true,
+                'data'  => $res
+            ], 200);
+        
+        else
+            return $response->withJson([
+                'ok'    => false,
+                'msg'  => "No se encontraron bonos"
+            ], 400);
+    }
 }

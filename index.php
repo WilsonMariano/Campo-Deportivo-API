@@ -70,6 +70,7 @@
 
         $this->get('/getBetweenDate[/]',            \BonosApi::class . ':GetBetweenDate');
         $this->get('/getByDateAndPrestacion[/]',    \BonosApi::class . ':GetByDateAndPrestacion');
+        $this->get('/getForCalendar[/]',            \BonosApi::class . ':getForCalendar');
         $this->post('/insert[/]',                   \BonosApi::class . ':Insert');
         $this->put('/cancelBono/{id}',              \BonosApi::class . ':CancelBono');
 
