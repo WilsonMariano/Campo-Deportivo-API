@@ -10,6 +10,7 @@ class Bonos {
   public $fechaEmision;
   public $fechaAsignacion;
   public $horaAsignacion;
+  public $horaFin;
   public $codPrestacion;
   public $detalle;
   public $codEstadoBono;
@@ -23,6 +24,7 @@ class Bonos {
       $this->fechaEmision = $arrData["fechaEmision"];
       $this->fechaAsignacion = $arrData["fechaAsignacion"];
       $this->horaAsignacion = $arrData["horaAsignacion"] ?? null;
+      $this->horaFin = $arrData["horaFin"] ?? null;
       $this->codPrestacion = $arrData["codPrestacion"];
       $this->detalle = $arrData["detalle"] ?? null;
       $this->codEstadoBono = $arrData["codEstadoBono"] ?? "cod_estado_bono_1";
@@ -36,6 +38,7 @@ class Bonos {
     $consulta->bindValue(':fechaEmision',       $objEntidad->fechaEmision,      \PDO::PARAM_STR);
     $consulta->bindValue(':fechaAsignacion',    $objEntidad->fechaAsignacion,   \PDO::PARAM_STR);
     $consulta->bindValue(':horaAsignacion',     $objEntidad->horaAsignacion,    \PDO::PARAM_STR);
+    $consulta->bindValue(':horaFin',            $objEntidad->horaFin,           \PDO::PARAM_STR);
     $consulta->bindValue(':codPrestacion',      $objEntidad->codPrestacion,     \PDO::PARAM_STR);
     $consulta->bindValue(':detalle',            $objEntidad->detalle,           \PDO::PARAM_STR);
     $consulta->bindValue(':codEstadoBono',      $objEntidad->codEstadoBono,     \PDO::PARAM_STR);
@@ -150,7 +153,7 @@ class Bonos {
 		 
     $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
     $consulta =$objetoAccesoDato->RetornarConsulta("
-    SELECT id, nombre, apellido, fechaAsignacion, horaAsignacion, codPrestacion from vwbonos
+    SELECT id, nombre, apellido, fechaAsignacion, horaAsignacion, horaFin, codPrestacion from vwbonos
     WHERE fechaAsignacion >= :fechaDesde
     AND codPrestacion != 'cod_prestacion_3' 
     AND codEstadoBono = 'cod_estado_bono_1'

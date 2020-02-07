@@ -49,6 +49,8 @@ class BonosApi {
             $horaDesde = _FxGlobales::SubHours($obj->horaAsignacion, $duracion);
             $horaHasta = _FxGlobales::AddHours($obj->horaAsignacion, $duracion);
 
+            $obj->horaFin = $horaHasta;
+
 
             // Esto devuelve un array de bonos dentro del periodo buscado
             $res = Bonos::GetAvailability($obj->fechaAsignacion, $horaDesde, $horaHasta, $arrPrestaciones);
