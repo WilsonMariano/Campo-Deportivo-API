@@ -184,7 +184,7 @@ class Socios extends SociosTitulares {
 		return $arrObjEntidad;
   }
 
-  public static function GetIdByHash($hash) {	
+  public static function GetIdByHash($hash) {
 		 
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("
@@ -192,7 +192,7 @@ class Socios extends SociosTitulares {
     FROM vwSocios  
     WHERE hash = :hash
     ");
-		$consulta->bindValue(':hash',   $hash,   PDO::PARAM_INT);
+		$consulta->bindValue(':hash',   $hash,   PDO::PARAM_STR);
 		$consulta->execute();
     $obj= $consulta->fetch(PDO::FETCH_ASSOC);	
 		

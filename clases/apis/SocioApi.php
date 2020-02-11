@@ -208,14 +208,17 @@ class SocioApi {
         // Recupero los bonos emitidos
         $bonos = Bonos::GetByDateAndIdSocio($fecha, $socio['id']);
 
+        $res = array(
+            'socio'       => $socio,  
+            'bonos'       => $bonos
+        );
+
+        if($venc != false)
+            $res['vencimiento'] = $venc['fechaVencimiento'];
 
         return $response->withJson([
             'ok'    => true,
-            'data'  => array(
-                'socio'       => $socio,  
-                'vencimiento' => $venc['fechaVencimiento'],
-                'bonos'       => $bonos
-            )
+            'data'  => $res
         ]);      
 
     }
