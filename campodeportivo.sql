@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-02-2020 a las 16:04:01
+-- Tiempo de generación: 11-02-2020 a las 21:55:30
 -- Versión del servidor: 10.4.10-MariaDB
 -- Versión de PHP: 7.1.33
 
@@ -192,6 +192,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `restoreDB` ()  BEGIN
 			hash VARCHAR(100) NOT NULL,
 			activo INT DEFAULT 1
 		);
+		
+		ALTER TABLE Socios AUTO_INCREMENT=1001;
 
 		-- INSERT INTO Socios(idSocioTitular, nombre, apellido, dni, fechaNacimiento, telefono, codParentesco, hash) VALUES
 		-- (1, "Mariano", "Wilson", 37558497, "1993/05/04", 1123896955, "cod_parentesco_1", "asd123"),
@@ -1274,7 +1276,7 @@ ALTER TABLE `rangoedad`
 -- AUTO_INCREMENT de la tabla `socios`
 --
 ALTER TABLE `socios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
 
 --
 -- AUTO_INCREMENT de la tabla `sociostitulares`

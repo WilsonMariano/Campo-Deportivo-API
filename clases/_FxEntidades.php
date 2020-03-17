@@ -111,8 +111,8 @@ class FxEntidades {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("
         SELECT * FROM 
-		((SELECT fechaPago AS 'fecha', monto, descripcion, apellido, nombre, idSocio FROM vwcuotas) UNION 
-		(SELECT fechaEmision AS 'fecha', monto, prestacion AS 'descripcion', apellido, nombre, idSocio FROM vwbonos)) AS i
+		((SELECT id, fechaPago AS 'fecha', monto, descripcion, apellido, nombre, idSocio FROM vwcuotas) UNION 
+		(SELECT id, fechaEmision AS 'fecha', monto, prestacion AS 'descripcion', apellido, nombre, idSocio FROM vwbonos)) AS i
 		WHERE i.fecha BETWEEN :fechaDesde AND :fechaHasta
 		ORDER BY i.fecha ASC
         ");
